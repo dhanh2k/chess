@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: aqua;
+            border: 1px solid black;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        const body = document.getElementsByTagName("BODY")[0];
+
+        const chess = "chess"
+
+        body.addEventListener("mousedown", (e, word = body) => {
+            console.log(e)
+            console.log(word)
+            document.addEventListener('mousemove', document.fn = function fn (e, word2 = word) {
+                console.log(word2)
+                console.log(e.clientX, e.clientY)
+            }, false)
+            document.addEventListener('mouseup', (e) => {
+                document.removeEventListener('mousemove', document.fn, false)
+            })
+        })
+
+        // function mouseDown(somword, e) {
+        //     console.log(somword)
+        //     document.addEventListener('mousemove', mouseMove)
+        //     document.addEventListener('mouseup', mouseUp)
+        // }
+
+        function mouseMove(e) {
+            console.log(e.clientX, e.clientY)
+        }
+
+        function mouseUp(e) {
+            document.removeEventListener('mousemove', mouseMove)
+        }
+    </script>
+</body>
+
+</html>

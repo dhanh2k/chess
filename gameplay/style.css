@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: lightblue;
+    flex-direction: row;
+}
+
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 8vh);
+    grid-template-rows: repeat(8, 8vh);
+    position: relative;
+}
+
+.white {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.black {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.piece {
+    --x: 4;
+    --y: 4;
+    width: 8vh;
+    height: 8vh;
+    position: absolute;
+    top: calc(var(--x) * 8vh);
+    left: calc(var(--y) * 8vh);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* .transition {
+    transition: 0.5s ease-in-out;
+} */
+
+.piece img {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.available {
+    background-color: pink;
+}
+
+.green {
+    background-color: greenyellow;
+}

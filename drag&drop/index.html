@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: cornflowerblue;
+            margin: 0;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            position: relative;
+        }
+
+        .black {
+            background-color: black;
+        }
+
+        .white {
+            background-color: white;
+        }
+
+        .green {
+            background-color: greenyellow;
+        }
+
+        .piece {
+            --x: 0;
+            --y: 0;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: calc(var(--y) * 100px);
+            left: calc(var(--x) * 100px);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .piece img {
+            width: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="board">
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="cell black"></div>
+        <div class="cell white"></div>
+        <div class="piece">
+            <img src="./king.png" alt="">
+        </div>
+    </div>
+
+    <script>
+        let newX = 0, newY = 0, startX = 0, startY = 0, x = 0, y = 0
+
+        const cells = document.querySelectorAll(".cell")
+        const board = document.querySelector("#board")
+        const piece = document.getElementsByClassName("piece")[0]
+        
+        piece.addEventListener('mousedown', mouseDown)
+
+        function mouseDown(e) {
+            document.addEventListener('mousemove', mouseMove)
+            document.addEventListener('mouseup', mouseUp)
+        }
+
+        function mouseMove(e) {
+            if (e.clientY < board.offsetTop) {
+                piece.style.top = -50 + 'px'
+            } else {
+                if (e.clientY > (board.offsetTop + 400)) {
+                    piece.style.top = 350 + 'px'
+                } else {
+                    piece.style.top = e.clientY - (board.offsetTop) - 50 + 'px'
+                }
+            }
+
+            if (e.clientX < board.offsetLeft) {
+                piece.style.left = -50 + 'px'
+            } else {
+                if (e.clientX > (board.offsetLeft + 400)) {
+                    piece.style.left = 350 + 'px'
+                } else {
+                    piece.style.left = e.clientX - (board.offsetLeft) - 50 + 'px'
+                }
+            }
+
+
+            // piece.style.left = e.clientX - (board.offsetLeft) - 50 + 'px'
+        }
+
+        function mouseUp(e) {
+            document.removeEventListener('mousemove', mouseMove)
+            document.removeEventListener('mouseup', mouseUp)
+        }
+    </script>
+</body>
+
+</html>
