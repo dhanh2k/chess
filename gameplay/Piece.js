@@ -8,6 +8,7 @@ export default class Piece {
         img.setAttribute("src", `../../images/pieces/${color}/${type}.png`)
         this.pieceElement.appendChild(img)
         this.firstMove = false
+        this.wasChecked = false
     }
 
     set setX(value){

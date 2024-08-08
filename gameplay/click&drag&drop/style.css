@@ -56,10 +56,18 @@ body {
     pointer-events: none;
 }
 
+.checker {
+    background-color: yellow;
+}
+
 .available {
-    background-color: pink;
+    background-color: lightskyblue;
 }
 
 .green {
     background-color: greenyellow;
+}
+
+.check {
+    background-color: red;
 }

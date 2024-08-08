@@ -1,5 +1,5 @@
 import ChessBoard from "../ChessBoard.js";
-import { deleteAvailableMove, deleteBlockedMove, findAvailableMove, findCell, findPiece } from "../function.js";
+import { checkAvailableCheckMove, deleteAvailableMove, deleteBlockedMove, findAvailableMove, findCell, findPiece, findPieceByTypeAndColor } from "../function.js";
 
 const chessboardElement = document.getElementById("chessboard")
 
@@ -26,14 +26,33 @@ chessboard.pieces.forEach(piece => {
                     piece.pieceElement.remove()
                     chessboard.pieces.splice(chessboard.pieces.indexOf(piece), 1)
                     cellTarget.piece = undefined
-                    findPiece(chessboard.pieces, pieceWasSelected.x, pieceWasSelected.y).setX = cellTarget.x
-                    findPiece(chessboard.pieces, pieceWasSelected.x, pieceWasSelected.y).setY = cellTarget.y
-                    findPiece(chessboard.pieces, pieceWasSelected.x, pieceWasSelected.y).firstMove = true
+                    const thatPiece = findPiece(chessboard.pieces, pieceWasSelected.x, pieceWasSelected.y)
+                    thatPiece.setX = cellTarget.x
+                    thatPiece.setY = cellTarget.y
+                    thatPiece.firstMove = true
                     captured = true
                     deleteAvailableMove(chessboard.cells)
+
+                    // lam noi bat nuoc chieu
+                    if (checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, thatPiece.color).length != 0) {
+                        const pieceWasCheck = findPieceByTypeAndColor(chessboard.pieces, "king", thatPiece.color == "white" ? "black" : "white")
+                        pieceWasCheck.wasChecked = true
+                        findCell(chessboard.cells, pieceWasCheck.x, pieceWasCheck.y).cellElement.classList.add("check")
+                        checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).forEach(piece => {
+                            findCell(chessboard.cells, piece.x, piece.y).cellElement.classList.add("checker")
+                        })
+                    }
+                    // het code lam noi bat nuoc chieu
+
                     lastMovedPiece = findPiece(chessboard.pieces, pieceWasSelected.x, pieceWasSelected.y)
+                    // checkAvailableCheckMove(lastMovedPiece, chessboard.pieces, lastMovedPiece).forEach(arr => {
+                    //     findCell(chessboard.cells, arr[0], arr[1]).cellElement.classList.add("check")
+                    // })
+
+
+
                     pieceWasSelected = undefined
-                    console.log(lastMovedPiece)
+
                 } else {
                     deleteAvailableMove(chessboard.cells)
                     pieceWasSelected = piece
@@ -118,8 +137,19 @@ chessboard.pieces.forEach(piece => {
                         }
                     }
                     // het code phong hau
+
+                    // lam noi bat nuoc chieu
+                    if (checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).length != 0) {
+                        const pieceWasCheck = findPieceByTypeAndColor(chessboard.pieces, "king", piece.color == "white" ? "black" : "white")
+                        pieceWasCheck.wasChecked = true
+                        findCell(chessboard.cells, pieceWasCheck.x, pieceWasCheck.y).cellElement.classList.add("check")
+                        checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).forEach(piece => {
+                            findCell(chessboard.cells, piece.x, piece.y).cellElement.classList.add("checker")
+                        })
+                    }
+                    // het code lam noi bat nuoc chieu
                     lastMovedPiece = piece
-                    console.log(lastMovedPiece)
+
                 } else {
                     // nhap thanh
                     if (pieceWasSelected.type == "king") {
@@ -156,25 +186,25 @@ chessboard.pieces.forEach(piece => {
 
                     //bat tot ngang duong
                     if (pieceWasSelected.type == "pawn") {
-                        if(pieceWasSelected.color == "white"){
+                        if (pieceWasSelected.color == "white") {
                             if (pieceWasSelected.x - x == 1) {
                                 console.log("Trang Trai")
                                 findPiece(chessboard.pieces, pieceWasSelected.x - 1, y - 1).pieceElement.remove()
                                 chessboard.pieces.splice(chessboard.pieces.indexOf(findPiece(chessboard.pieces, x - 1, y)), 1)
                             }
-    
+
                             if (pieceWasSelected.x - x == -1) {
                                 findPiece(chessboard.pieces, pieceWasSelected.x + 1, y - 1).pieceElement.remove()
                                 chessboard.pieces.splice(chessboard.pieces.indexOf(findPiece(chessboard.pieces, x + 1, y)), 1)
                             }
                         }
 
-                        if(pieceWasSelected.color == "black"){
+                        if (pieceWasSelected.color == "black") {
                             if (pieceWasSelected.x - x == 1) {
                                 findPiece(chessboard.pieces, pieceWasSelected.x - 1, y + 1).pieceElement.remove()
                                 chessboard.pieces.splice(chessboard.pieces.indexOf(findPiece(chessboard.pieces, x - 1, y)), 1)
                             }
-    
+
                             if (pieceWasSelected.x - x == -1) {
                                 findPiece(chessboard.pieces, pieceWasSelected.x + 1, y + 1).pieceElement.remove()
                                 chessboard.pieces.splice(chessboard.pieces.indexOf(findPiece(chessboard.pieces, x + 1, y)), 1)
@@ -186,6 +216,18 @@ chessboard.pieces.forEach(piece => {
                     piece.setX = x
                     piece.setY = y
                     piece.firstMove = true
+
+                    // lam noi bat nuoc chieu
+                    if (checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).length != 0) {
+                        const pieceWasCheck = findPieceByTypeAndColor(chessboard.pieces, "king", piece.color == "white" ? "black" : "white")
+                        pieceWasCheck.wasChecked = true
+                        findCell(chessboard.cells, pieceWasCheck.x, pieceWasCheck.y).cellElement.classList.add("check")
+                        checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).forEach(piece => {
+                            findCell(chessboard.cells, piece.x, piece.y).cellElement.classList.add("checker")
+                        })
+                    }
+                    // het code lam noi bat nuoc chieu
+
                     // code phong hau
                     if (piece.type == "pawn") {
                         if (piece.y == 7) {
@@ -197,8 +239,9 @@ chessboard.pieces.forEach(piece => {
                         }
                     }
                     lastMovedPiece = piece
-                    console.log(lastMovedPiece)
                     // het code phong hau
+
+
                 }
                 hasMoved = true
             } else {
@@ -288,16 +331,25 @@ chessboard.cells.forEach(cell => {
             }
             //het code bat tot ngang duong
 
-            // console.log(findPiece(chessboard.pieces, x, y))
             const piece = findPiece(chessboard.pieces, x, y)
             piece.setX = cell.x
             piece.setY = cell.y
             piece.firstMove = true
-            // console.log(piece)
             pieceWasSelected = undefined
             flag = false
             flag2 = false
             deleteAvailableMove(chessboard.cells)
+
+            // lam noi bat nuoc chieu
+            if (checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).length != 0) {
+                const pieceWasCheck = findPieceByTypeAndColor(chessboard.pieces, "king", piece.color == "white" ? "black" : "white")
+                pieceWasCheck.wasChecked = true
+                findCell(chessboard.cells, pieceWasCheck.x, pieceWasCheck.y).cellElement.classList.add("check")
+                checkAvailableCheckMove(chessboard.pieces, lastMovedPiece, piece.color).forEach(piece => {
+                    findCell(chessboard.cells, piece.x, piece.y).cellElement.classList.add("checker")
+                })
+            }
+            // het code lam noi bat nuoc chieu
 
             // code phong hau
             if (piece.type == "pawn") {
@@ -310,10 +362,11 @@ chessboard.cells.forEach(cell => {
                 }
             }
 
-            // console.log(piece)
             lastMovedPiece = piece
-            console.log(lastMovedPiece)
+
             // het code phong hau
+
+
         } else {
             pieceWasSelected = undefined
             deleteAvailableMove(chessboard.cells)

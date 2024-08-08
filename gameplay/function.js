@@ -16,41 +16,41 @@ export function createPieceElements(chessboardElement, cells) {
     pieces.push(placePiece("king", "white", 3, 0, cells))
     pieces.push(placePiece("king", "black", 3, 7, cells))
 
-    pieces.push(placePiece("queen", "white", 4, 0, cells))
+    // pieces.push(placePiece("queen", "white", 4, 0, cells))
     pieces.push(placePiece("queen", "black", 4, 7, cells))
 
-    pieces.push(placePiece("bishop", "white", 2, 0, cells))
-    pieces.push(placePiece("bishop", "black", 2, 7, cells))
-    pieces.push(placePiece("bishop", "white", 5, 0, cells))
-    pieces.push(placePiece("bishop", "black", 5, 7, cells))
+    // pieces.push(placePiece("bishop", "white", 2, 0, cells))
+    // pieces.push(placePiece("bishop", "black", 2, 7, cells))
+    // pieces.push(placePiece("bishop", "white", 5, 0, cells))
+    // pieces.push(placePiece("bishop", "black", 5, 7, cells))
 
-    pieces.push(placePiece("knight", "white", 1, 0, cells))
-    pieces.push(placePiece("knight", "black", 1, 7, cells))
-    pieces.push(placePiece("knight", "white", 6, 0, cells))
-    pieces.push(placePiece("knight", "black", 6, 7, cells))
+    // pieces.push(placePiece("knight", "white", 1, 0, cells))
+    // pieces.push(placePiece("knight", "black", 1, 7, cells))
+    // pieces.push(placePiece("knight", "white", 6, 0, cells))
+    // pieces.push(placePiece("knight", "black", 6, 7, cells))
 
     pieces.push(placePiece("rook", "white", 0, 0, cells))
-    pieces.push(placePiece("rook", "black", 0, 7, cells))
+    // pieces.push(placePiece("rook", "black", 0, 7, cells))
     pieces.push(placePiece("rook", "white", 7, 0, cells))
-    pieces.push(placePiece("rook", "black", 7, 7, cells))
+    // pieces.push(placePiece("rook", "black", 7, 7, cells))
 
-    pieces.push(placePiece("pawn", "black", 0, 6, cells))
-    pieces.push(placePiece("pawn", "black", 1, 6, cells))
-    pieces.push(placePiece("pawn", "black", 2, 6, cells))
-    pieces.push(placePiece("pawn", "black", 3, 6, cells))
-    pieces.push(placePiece("pawn", "black", 4, 6, cells))
-    pieces.push(placePiece("pawn", "black", 5, 6, cells))
-    pieces.push(placePiece("pawn", "black", 6, 6, cells))
-    pieces.push(placePiece("pawn", "black", 7, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 0, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 1, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 2, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 3, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 4, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 5, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 6, 6, cells))
+    // pieces.push(placePiece("pawn", "black", 7, 6, cells))
 
-    pieces.push(placePiece("pawn", "white", 0, 1, cells))
-    pieces.push(placePiece("pawn", "white", 1, 1, cells))
-    pieces.push(placePiece("pawn", "white", 2, 1, cells))
-    pieces.push(placePiece("pawn", "white", 3, 1, cells))
-    pieces.push(placePiece("pawn", "white", 4, 1, cells))
-    pieces.push(placePiece("pawn", "white", 5, 1, cells))
-    pieces.push(placePiece("pawn", "white", 6, 1, cells))
-    pieces.push(placePiece("pawn", "white", 7, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 0, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 1, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 2, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 3, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 4, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 5, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 6, 1, cells))
+    // pieces.push(placePiece("pawn", "white", 7, 1, cells))
 
     pieces.forEach(piece => {
         chessboardElement.appendChild(piece.pieceElement)
@@ -81,35 +81,37 @@ export function findAvailableMove(piece, x, y, pieces) {
             [x - 1, y], [x + 1, y],
             [x - 1, y + 1], [x, y + 1], [x + 1, y + 1]]
 
-            if (piece.firstMove == false) {
-                if (piece.color == "white") {
-                    // nước nhập thành bên trái
-                    if (findPiece(pieces, 0, 0) != undefined) {
-                        if (findPiece(pieces, 0, 0).firstMove == false) {
-                            kingCoordinates.push([x - 2, y])
+            if (piece.wasChecked == false) {
+                if (piece.firstMove == false) {
+                    if (piece.color == "white") {
+                        // nước nhập thành bên trái
+                        if (findPiece(pieces, 0, 0) != undefined) {
+                            if (findPiece(pieces, 0, 0).firstMove == false) {
+                                kingCoordinates.push([x - 2, y])
+                            }
+                        }
+
+                        // nước nhập thành bên phải
+                        if (findPiece(pieces, 7, 0) != undefined) {
+                            if (findPiece(pieces, 7, 0).firstMove == false) {
+                                kingCoordinates.push([x + 2, y], [x + 3, y])
+                            }
                         }
                     }
 
-                    // nước nhập thành bên phải
-                    if (findPiece(pieces, 7, 0) != undefined) {
-                        if (findPiece(pieces, 7, 0).firstMove == false) {
-                            kingCoordinates.push([x + 2, y], [x + 3, y])
+                    if (piece.color == "black") {
+                        // nước nhập thành bên trái
+                        if (findPiece(pieces, 0, 7) != undefined) {
+                            if (findPiece(pieces, 0, 7).firstMove == false) {
+                                kingCoordinates.push([x - 2, y])
+                            }
                         }
-                    }
-                }
 
-                if (piece.color == "black") {
-                    // nước nhập thành bên trái
-                    if (findPiece(pieces, 0, 7) != undefined) {
-                        if (findPiece(pieces, 0, 7).firstMove == false) {
-                            kingCoordinates.push([x - 2, y])
-                        }
-                    }
-
-                    // nước nhập thành bên phải
-                    if (findPiece(pieces, 7, 7) != undefined) {
-                        if (findPiece(pieces, 7, 7).firstMove == false) {
-                            kingCoordinates.push([x + 2, y], [x + 3, y])
+                        // nước nhập thành bên phải
+                        if (findPiece(pieces, 7, 7) != undefined) {
+                            if (findPiece(pieces, 7, 7).firstMove == false) {
+                                kingCoordinates.push([x + 2, y], [x + 3, y])
+                            }
                         }
                     }
                 }
@@ -220,6 +222,7 @@ export function deleteAvailableMove(cells) {
 }
 
 export function deleteBlockedMove(piece, pieces, coordinates, lastMovedPiece) {
+    // lastMovedPiece nhằm tìm nước tốt vừa mới đi để bắt tốt ngang đường
     let topLeftBlocked = false
     let topRightBlocked = false
     let botLeftBlocked = false
@@ -228,8 +231,6 @@ export function deleteBlockedMove(piece, pieces, coordinates, lastMovedPiece) {
     let botBlocked = false
     let leftBlocked = false
     let rightBlocked = false
-    // let leftCastlingBlocked = false
-    // let rightCastlingBlocked = false
     const leftCastlingMoves = []
     const rightCastlingMoves = []
     const availableCoordinates = []
@@ -724,4 +725,18 @@ export function deleteBlockedMove(piece, pieces, coordinates, lastMovedPiece) {
 
         return availableCoordinates
     }
+}
+
+export function checkAvailableCheckMove(pieces, lastMovedPiece, color) {
+    return pieces.filter(piece => {
+        return deleteBlockedMove(piece, pieces, findAvailableMove(piece, piece.x, piece.y, pieces), lastMovedPiece).filter(arr => {
+            return findPiece(pieces, arr[0], arr[1]) != undefined && findPiece(pieces, arr[0], arr[1]).type == "king" && findPiece(pieces, arr[0], arr[1]).color != color
+        }).length != 0 && piece.color == color
+    })
+}
+
+export function findPieceByTypeAndColor(pieces, type, color) {
+    return pieces.filter(piece => {
+        return piece.type == type && piece.color == color
+    })[0]
 }
